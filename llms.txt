@@ -1,0 +1,340 @@
+# https://deepwiki.com/1n3/sn1per/* llms-full.txt
+
+## Sn1per Framework
+[Get free private DeepWikis in Devin](https://deepwiki.com/private-repo)
+
+[DeepWiki](https://deepwiki.com/)
+
+[DeepWiki](https://deepwiki.com/)
+
+[1N3/Sn1per](https://github.com/1N3/Sn1per)
+
+[Get free private DeepWikis with\\
+\\
+Devin](https://deepwiki.com/private-repo) Share
+
+Last indexed: 19 April 2025 ( [4ff7c0](https://github.com/1N3/Sn1per/commits/4ff7c0cc))
+
+- [Sn1per Overview](https://deepwiki.com/1N3/Sn1per/1-sn1per-overview)
+- [System Architecture](https://deepwiki.com/1N3/Sn1per/1.1-system-architecture)
+- [Terminology and Key Concepts](https://deepwiki.com/1N3/Sn1per/1.2-terminology-and-key-concepts)
+- [Installation and Setup](https://deepwiki.com/1N3/Sn1per/2-installation-and-setup)
+- [Docker Deployment](https://deepwiki.com/1N3/Sn1per/2.1-docker-deployment)
+- [Configuration](https://deepwiki.com/1N3/Sn1per/2.2-configuration)
+- [Scan Modes](https://deepwiki.com/1N3/Sn1per/3-scan-modes)
+- [Standard Scanning Modes](https://deepwiki.com/1N3/Sn1per/3.1-standard-scanning-modes)
+- [Web Scanning Modes](https://deepwiki.com/1N3/Sn1per/3.2-web-scanning-modes)
+- [Mass Scanning Modes](https://deepwiki.com/1N3/Sn1per/3.3-mass-scanning-modes)
+- [Specialized Scanning Modes](https://deepwiki.com/1N3/Sn1per/3.4-specialized-scanning-modes)
+- [Reconnaissance System](https://deepwiki.com/1N3/Sn1per/4-reconnaissance-system)
+- [OSINT Gathering](https://deepwiki.com/1N3/Sn1per/4.1-osint-gathering)
+- [Network Scanning](https://deepwiki.com/1N3/Sn1per/4.2-network-scanning)
+- [Subdomain Enumeration](https://deepwiki.com/1N3/Sn1per/4.3-subdomain-enumeration)
+- [Vulnerability Scanning](https://deepwiki.com/1N3/Sn1per/5-vulnerability-scanning)
+- [SC0PE Vulnerability Scanner](https://deepwiki.com/1N3/Sn1per/5.1-sc0pe-vulnerability-scanner)
+- [Web Vulnerability Scanning](https://deepwiki.com/1N3/Sn1per/5.2-web-vulnerability-scanning)
+- [Specific Vulnerability Templates](https://deepwiki.com/1N3/Sn1per/5.3-specific-vulnerability-templates)
+- [Default Credential Checking](https://deepwiki.com/1N3/Sn1per/5.4-default-credential-checking)
+- [Reporting and Output](https://deepwiki.com/1N3/Sn1per/6-reporting-and-output)
+- [Loot Directory Structure](https://deepwiki.com/1N3/Sn1per/6.1-loot-directory-structure)
+- [Notifications](https://deepwiki.com/1N3/Sn1per/6.3-notifications)
+- [Development and Extension](https://deepwiki.com/1N3/Sn1per/7-development-and-extension)
+- [Creating Custom Templates](https://deepwiki.com/1N3/Sn1per/7.1-creating-custom-templates)
+- [License and Contribution](https://deepwiki.com/1N3/Sn1per/7.2-license-and-contribution)
+
+Menu
+
+# Sn1per Overview
+
+Relevant source files
+
+- [CHANGELOG.md](https://github.com/1N3/Sn1per/blob/4ff7c0cc/CHANGELOG.md)
+- [LICENSE.md](https://github.com/1N3/Sn1per/blob/4ff7c0cc/LICENSE.md)
+- [README.md](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md)
+- [bin/pyText2pdf.py](https://github.com/1N3/Sn1per/blob/4ff7c0cc/bin/pyText2pdf.py)
+- [install.sh](https://github.com/1N3/Sn1per/blob/4ff7c0cc/install.sh)
+- [pro/notepad.html](https://github.com/1N3/Sn1per/blob/4ff7c0cc/pro/notepad.html)
+- [sn1per.desktop](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sn1per.desktop)
+- [sn1per.png](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sn1per.png)
+- [sniper](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper)
+
+Sn1per is an automated penetration testing and reconnaissance framework that orchestrates numerous security tools to perform comprehensive target scanning, vulnerability assessment, and reporting through a unified command-line interface.
+
+## Purpose and Scope
+
+This document introduces the Sn1per framework, covering its architecture, core features, and operational concepts. It serves as a starting point for understanding the system's capabilities and organization. For detailed installation instructions, see [Installation and Setup](https://deepwiki.com/1N3/Sn1per/2-installation-and-setup), and for specific scan modes, see [Scan Modes](https://deepwiki.com/1N3/Sn1per/3-scan-modes).
+
+Sources: [README.md13-41](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L13-L41) [sniper1-4](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L1-L4)
+
+## System Architecture Overview
+
+Sn1per follows a modular architecture pattern where the main script orchestrates various security tools and scan modules to perform comprehensive security assessments.
+
+### Core Components
+
+```
+
+Scan Execution
+Core System
+
+sniper script
+(Main Controller)
+Configuration System
+(sniper.conf)
+Scan Mode Modules
+(modes/*.sh)
+Loot System
+(Data Collection)
+Reconnaissance
+(OSINT, Subdomain Discovery)
+Port Scanning
+(Nmap, Masscan)
+Web Scanning
+(Nikto, WPScan)
+Vulnerability Scanning
+(Nuclei, SC0PE)
+User
+Reporting System
+
+```
+
+The core components of Sn1per include:
+
+1. **Main Controller** \- The primary `sniper` script processes user input, configures scanning behavior, and orchestrates the execution of scan modules.
+2. **Configuration System** \- Uses `sniper.conf` to define scanning parameters, API keys, and tool settings that drive scan behavior.
+3. **Scan Mode Modules** \- Specialized scripts in `modes/` directory that contain specific scan workflows (normal, stealth, web, etc.).
+4. **Loot System** \- An organized storage hierarchy that saves and categorizes all scan findings.
+5. **Tool Integration** \- Framework for utilizing and extracting data from numerous security tools.
+
+Sources: [sniper12-43](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L12-L43) [sniper226-414](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L226-L414) [README.md110-220](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L110-L220)
+
+### Command and Control Flow
+
+```
+
+"Loot Directory""External Security Tools""Scan Mode Module""Configuration System""sniper script""Loot Directory""External Security Tools""Scan Mode Module""Configuration System""sniper script"UserExecute with parametersLoad configurationParse argumentsInitialize workspaceSelect appropriate modeExecute security toolsStore raw outputProcess and organize resultsDisplay scan summaryUser
+
+```
+
+When executing Sn1per, the system follows this operational flow:
+
+1. User provides command-line arguments specifying target, scan mode, and options
+2. The main controller loads configuration from sniper.conf and any user-specific configurations
+3. Based on the specified scan mode, the appropriate module is executed
+4. The selected module orchestrates various security tools in a predefined sequence
+5. All findings are collected, processed, and stored in the loot directory
+6. Reports are generated based on the collected data
+
+Sources: [sniper427-491](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L427-L491) [sniper645-691](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L645-L691)
+
+## Key Capabilities
+
+### Scan Modes
+
+Sn1per offers multiple scanning modes to accommodate different assessment needs:
+
+| Mode | Description | Primary Use Cases |
+| --- | --- | --- |
+| Normal | Basic scan of targets and open ports using active and passive checks | General-purpose assessments |
+| Stealth | Non-intrusive scans to avoid WAF/IPS detection | Testing without triggering alerts |
+| Web | Web application-focused scans | Web security assessments |
+| Discover | Network/subnet enumeration | Internal network scanning |
+| Airstrike/Nuke | Multi-target scanning with extensive options | Wide-scale assessments |
+| Port | Targeted port vulnerability scanning | Service-specific testing |
+| Fullportonly | Complete port scan without additional testing | Network mapping |
+
+Sources: [README.md110-175](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L110-L175) [README.md201-221](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L201-L221) [sniper47-147](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L47-L147)
+
+### Directory Structure and Data Organization
+
+Sn1per organizes all scan data in a structured "loot" directory that categorizes findings by type:
+
+```
+
+Loot Directory
+(/usr/share/sniper/loot)
+workspace/
+(Target Workspaces)
+TARGET_NAME/
+(Specific Target)
+domains/
+(Domain Information)
+nmap/
+(Port Scan Results)
+screenshots/
+(Web UI Captures)
+web/
+(Web Scan Data)
+vulnerabilities/
+(Detected Issues)
+osint/
+(OSINT Findings)
+credentials/
+(Retrieved Credentials)
+reports/
+(Generated Reports)
+
+```
+
+This organization allows for:
+
+- Structured storage of different finding types
+- Separation of data between different targets
+- Persistent storage of scan results for comparison
+- Efficient report generation based on categorized data
+
+Sources: [sniper431-449](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L431-L449) [sniper493-615](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L493-L615)
+
+## Scan Workflow Process
+
+```
+
+normal
+stealth
+web
+discover
+airstrike/nuke
+
+Yes
+No
+
+User Input
+Parse Arguments
+Initialize Environment
+Scan Mode Selection
+Normal Mode
+Stealth Mode
+Web Mode
+Discover Mode
+Multi-Target Mode
+Reconnaissance Phase
+Port Scanning
+Service Identification
+Web Service?
+Web Application Scanning
+Other Service Analysis
+Vulnerability Assessment
+Report Generation
+Save to Loot Directory
+
+```
+
+During execution, Sn1per follows this general workflow:
+
+1. **Initialization** \- Parses arguments, sets up the environment, and initializes the workspace
+2. **Reconnaissance** \- Performs OSINT and passive information gathering
+3. **Port Scanning** \- Identifies open ports and services on the target
+4. **Service Analysis** \- Conducts service-specific tests based on discovered ports
+5. **Vulnerability Assessment** \- Runs vulnerability scanners against identified services
+6. **Reporting** \- Generates reports and organizes findings in the loot directory
+
+Sources: [sniper427-491](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L427-L491) [sniper674-689](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L674-L689)
+
+## Tool Integration Framework
+
+Sn1per integrates a wide range of external security tools, coordinating their execution and consolidating their output.
+
+```
+
+Sn1per Controller
+Reconnaissance Tools
+Port Scanning Tools
+Web Scanning Tools
+Vulnerability Scanners
+Sublist3r
+(Subdomain Enumeration)
+TheHarvester
+(Email Harvesting)
+Amass
+(Attack Surface Mapping)
+Subfinder
+(Subdomain Discovery)
+Nmap
+(Port Scanning)
+Masscan
+(Mass IP Port Scanning)
+Nikto
+(Web Vulnerability Scanner)
+WPScan
+(WordPress Security Scanner)
+Whatweb
+(Web Fingerprinting)
+Dirsearch
+(Directory Brute Force)
+Nuclei
+(Vulnerability Scanner)
+SC0PE
+(Template-based Scanning)
+Metasploit
+(Exploitation Framework)
+OpenVAS
+(Vulnerability Scanner)
+
+```
+
+The integration framework provides:
+
+1. **Tool Orchestration** \- Sequential and parallel execution of security tools
+2. **Output Processing** \- Parsing and normalization of tool outputs
+3. **Consolidated Results** \- Unified reporting of findings from multiple tools
+4. **Centralized Configuration** \- Management of tool settings through Sn1per's configuration
+
+Sources: [install.sh153-403](https://github.com/1N3/Sn1per/blob/4ff7c0cc/install.sh#L153-L403) [README.md230-243](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L230-L243)
+
+## Configuration System
+
+Sn1per uses a layered configuration approach to control scanning behavior:
+
+1. **Default Configuration** \- Base settings in `/usr/share/sniper/sniper.conf`
+2. **User Configuration** \- Persistent user settings in `/root/.sniper.conf`
+3. **API Keys** \- External service credentials in `/root/.sniper_api_keys.conf`
+4. **Command-line Parameters** \- Runtime options that override configuration files
+
+This layered approach allows for:
+
+- Default settings that work out-of-the-box
+- Persistent user customizations
+- Secure storage of API keys
+- Per-scan customization through command-line options
+
+Sources: [sniper19-43](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L19-L43) [sniper238-249](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L238-L249)
+
+## Summary
+
+Sn1per provides a comprehensive framework for security testing that:
+
+1. Orchestrates numerous specialized security tools through a unified interface
+2. Offers multiple scanning modes for different assessment needs
+3. Provides structured storage and organization of scan findings
+4. Generates comprehensive reports of security issues
+5. Supports extensive customization through its configuration system
+
+For detailed information on installation, see [Installation and Setup](https://deepwiki.com/1N3/Sn1per/2-installation-and-setup), and for specific scan modes, see [Scan Modes](https://deepwiki.com/1N3/Sn1per/3-scan-modes).
+
+Sources: [README.md13-46](https://github.com/1N3/Sn1per/blob/4ff7c0cc/README.md#L13-L46) [sniper45-146](https://github.com/1N3/Sn1per/blob/4ff7c0cc/sniper#L45-L146)
+
+Dismiss
+
+Refresh this wiki
+
+Enter email to refresh
+
+### On this page
+
+- [Sn1per Overview](https://deepwiki.com/1N3/Sn1per#sn1per-overview)
+- [Purpose and Scope](https://deepwiki.com/1N3/Sn1per#purpose-and-scope)
+- [System Architecture Overview](https://deepwiki.com/1N3/Sn1per#system-architecture-overview)
+- [Core Components](https://deepwiki.com/1N3/Sn1per#core-components)
+- [Command and Control Flow](https://deepwiki.com/1N3/Sn1per#command-and-control-flow)
+- [Key Capabilities](https://deepwiki.com/1N3/Sn1per#key-capabilities)
+- [Scan Modes](https://deepwiki.com/1N3/Sn1per#scan-modes)
+- [Directory Structure and Data Organization](https://deepwiki.com/1N3/Sn1per#directory-structure-and-data-organization)
+- [Scan Workflow Process](https://deepwiki.com/1N3/Sn1per#scan-workflow-process)
+- [Tool Integration Framework](https://deepwiki.com/1N3/Sn1per#tool-integration-framework)
+- [Configuration System](https://deepwiki.com/1N3/Sn1per#configuration-system)
+- [Summary](https://deepwiki.com/1N3/Sn1per#summary)
+
+Ask Devin about 1N3/Sn1per
+
+Deep Research
+
